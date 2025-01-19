@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waveform Player</title>
+    <script src="https://unpkg.com/wavesurfer.js"></script>
+</head>
+<body>
+    <div id="waveform"></div>
+    <script>
+        var wavesurfer = WaveSurfer.create({
+            container: '#waveform',
+            waveColor: '#A8DBA8',
+            progressColor: '#3B8686',
+            height: 128,
+            barWidth: 3
+        });
+        wavesurfer.load('https://www.dropbox.com/scl/fi/c99zy61ajq4rcsj6hhz3v/rb-x-bvsu-808.mp3?rlkey=dmfhs6727r6l2nkpwk8mgp470&st=tlwebver&raw=1'');
+        document.getElementById('waveform').addEventListener('click', function() {
+            wavesurfer.playPause();
+        });
+    </script>
+</body>
+</html>
