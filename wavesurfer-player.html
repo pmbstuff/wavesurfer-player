@@ -8,6 +8,7 @@
 </head>
 <body>
     <div id="waveform"></div>
+    <button id="playButton">Play</button> <!-- Play Button -->
     <script>
         var wavesurfer = WaveSurfer.create({
             container: '#waveform',
@@ -16,9 +17,17 @@
             height: 128,
             barWidth: 3
         });
+
         wavesurfer.load('https://raw.githubusercontent.com/pmbstuff/wavesurfer-player/main/rbx808.mp3');
-        document.getElementById('waveform').addEventListener('click', function() {
+
+        // Function to handle play/pause when the button is clicked
+        document.getElementById('playButton').addEventListener('click', function() {
             wavesurfer.playPause();
+            if (wavesurfer.isPlaying()) {
+                this.textContent = 'Pause'; // Change button text to Pause
+            } else {
+                this.textContent = 'Play'; // Change button text to Play
+            }
         });
     </script>
 </body>
