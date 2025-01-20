@@ -24,12 +24,15 @@
             display: flex; /* Use flexbox to center the icon */
             align-items: center;
             justify-content: center;
+        }
+
+        /* Glow effect on hover applied to the icon itself */
+        #playPauseSymbol i {
             transition: box-shadow 0.3s ease; /* Smooth transition for glow effect */
         }
 
-        /* Glow effect on hover */
-        #playPauseSymbol:hover {
-            box-shadow: 0 0 15px 5px rgba(255, 105, 180, 1); /* Pink glow */
+        #playPauseSymbol:hover i {
+            box-shadow: 0 0 15px 5px rgba(255, 105, 180, 1); /* Pink glow applied to the icon */
         }
 
         #waveform {
