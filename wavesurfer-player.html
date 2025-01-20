@@ -8,7 +8,9 @@
 </head>
 <body>
     <div id="waveform"></div>
-    <button id="playButton">Play</button> <!-- Play Button -->
+    <!-- Play/Pause symbol -->
+    <span id="playPauseSymbol" style="font-size: 36px; cursor: pointer;">▶️</span> 
+
     <script>
         var wavesurfer = WaveSurfer.create({
             container: '#waveform',
@@ -20,13 +22,13 @@
 
         wavesurfer.load('https://raw.githubusercontent.com/pmbstuff/wavesurfer-player/main/rbx808.mp3');
 
-        // Function to handle play/pause when the button is clicked
-        document.getElementById('playButton').addEventListener('click', function() {
+        // Function to toggle play/pause when the symbol is clicked
+        document.getElementById('playPauseSymbol').addEventListener('click', function() {
             wavesurfer.playPause();
             if (wavesurfer.isPlaying()) {
-                this.textContent = 'Pause'; // Change button text to Pause
+                this.textContent = '⏸️'; // Change to pause symbol
             } else {
-                this.textContent = 'Play'; // Change button text to Play
+                this.textContent = '▶️'; // Change to play symbol
             }
         });
     </script>
