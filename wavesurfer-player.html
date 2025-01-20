@@ -26,13 +26,14 @@
             justify-content: center;
         }
 
-        /* Glow effect on hover applied to the icon itself */
+        /* Apply glowing effect to the icon itself */
         #playPauseSymbol i {
-            transition: box-shadow 0.3s ease; /* Smooth transition for glow effect */
+            transition: text-shadow 0.3s ease; /* Smooth transition for the glow effect */
         }
 
+        /* Glow effect on hover, following the shape of the icon */
         #playPauseSymbol:hover i {
-            box-shadow: 0 0 15px 5px rgba(255, 105, 180, 1); /* Pink glow applied to the icon */
+            text-shadow: 0 0 15px rgba(255, 105, 180, 1), 0 0 25px rgba(255, 105, 180, 1); /* Pink glow around the icon */
         }
 
         #waveform {
