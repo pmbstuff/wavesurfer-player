@@ -26,17 +26,16 @@
             justify-content: center;
         }
 
-        /* Apply outline effect to the icon itself */
+        /* Apply stroke effect to the icon itself */
         #playPauseSymbol i {
-            transition: text-shadow 0.3s ease; /* Smooth transition for the outline effect */
+            transition: all 0.3s ease; /* Smooth transition for the stroke effect */
+            color: black; /* Icon color */
         }
 
-        /* Outline effect on hover */
+        /* Apply stroke (outline) on hover */
         #playPauseSymbol:hover i {
-            text-shadow: 
-                0 0 0 2px rgba(173, 216, 230, 1),  /* Light blue outline */
-                0 0 0 4px rgba(173, 216, 230, 1),  /* Extra layer for stronger outline */
-                0 0 0 6px rgba(173, 216, 230, 1);  /* Strongest outline */
+            -webkit-text-stroke: 2px rgba(173, 216, 230, 1); /* Light blue stroke around the icon */
+            color: transparent; /* Make the icon color transparent to show the stroke */
         }
 
         #waveform {
