@@ -55,6 +55,13 @@
                 icon.classList.add('fa-play'); // Change to play icon
             }
         });
+
+        // When the audio finishes, reset the icon back to play
+        wavesurfer.on('finish', function() {
+            var icon = document.getElementById('playPauseSymbol').querySelector('i');
+            icon.classList.remove('fa-pause');
+            icon.classList.add('fa-play'); // Reset to play icon when finished
+        });
     </script>
 </body>
 </html>
