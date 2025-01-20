@@ -8,36 +8,43 @@
     <!-- Include FontAwesome for icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-        #waveform {
-            position: relative; /* Make the waveform container a positioning context */
-            width: 100%; /* Full width */
-            height: 100px; /* Reduced height to fit the icon comfortably */
-            background-color: #f0f0f0; /* Optional, to give background color */
+        /* Container for both the play button and the waveform */
+        .player-container {
+            display: flex;
+            align-items: center;
         }
+
         #playPauseSymbol {
-            position: absolute; /* Position the icon absolutely within the waveform container */
-            top: 50%; /* Vertically center */
-            left: 10px; /* Position it a bit from the left edge */
-            transform: translateY(-50%); /* Ensure it's vertically centered */
             font-size: 36px; /* Icon size */
             cursor: pointer;
             z-index: 10; /* Make sure it's above the waveform */
+            margin-right: 10px; /* Space between button and waveform */
+        }
+
+        #waveform {
+            position: relative; /* Make the waveform container a positioning context */
+            width: 80%; /* Make the waveform slimmer */
+            height: 100px; /* Height of the waveform */
+            background-color: #f0f0f0; /* Optional, to give background color */
         }
     </style>
 </head>
 <body>
-    <div id="waveform"></div>
-    <!-- Play/Pause icon using FontAwesome -->
-    <span id="playPauseSymbol">
-        <i class="fas fa-play"></i> <!-- Play icon initially -->
-    </span>
+    <!-- Wrapper for the play button and waveform -->
+    <div class="player-container">
+        <!-- Play/Pause icon using FontAwesome -->
+        <span id="playPauseSymbol">
+            <i class="fas fa-play"></i> <!-- Play icon initially -->
+        </span>
+        <div id="waveform"></div>
+    </div>
 
     <script>
         var wavesurfer = WaveSurfer.create({
             container: '#waveform',
             waveColor: '#A8DBA8',
             progressColor: '#3B8686',
-            height: 100, /* Reduced height of the waveform to match the smaller container */
+            height: 100, /* Height of the waveform */
             barWidth: 3
         });
 
