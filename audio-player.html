@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal Audio Preview Player</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/6.6.3/wavesurfer.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .player-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .play-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-right: 15px;
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+        .play-button:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+        .play-button svg {
+            width: 24px;
+            height: 24px;
+            fill: #555;
+        }
+        .waveform {
+            flex-grow: 1;
+            height: 60px;
+        }
+        .track-title {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="players-container"></div>
+
+    <script>
+        // Configuration
+        const audioTracks = [
+            {
+                title: "Track 1",
+                url: "YOUR_DROPBOX_URL_1", // Replace with your Dropbox URL
+            },
+            {
+                title: "Track 2",
+                url: "YOUR_DROPBOX_URL_2", // Replace with your Dropbox URL
+            },
+            // Add more tracks as needed
+        ];
+
+        // Create a player for each track
+        audioTracks.forEach((track, index) => {
+            createPlayer(track, index);
+        });
+
+        function createPlayer(track, index) {
+            // Create container elements
+            const trackContainer = document.createElement('div');
+            trackContainer.innerHTML = `<div class="track-title">${track.title}</div>`;
+            document.getElementById('players-container').appendChild(trackContainer);
+            
+            const playerContainer = document.createElement('div');
+            playerContainer.className = 'player-container';
+            
+            // Create play button
+            const playButton = document.createElement('button');
+            playButton.className = 'play-button';
+            playButton.id = `play-${index}`;
+            playButton.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+            `;
+            
+            // Create waveform container
+            const waveformDiv = document.createElement('div');
+            waveformDiv.id = `waveform-${index}`;
+            waveformDiv.className = 'waveform';
+            
+            // Add elements to player container
+            playerContainer.appendChild(playButton);
+            playerContainer.appendChild(waveformDiv);
+            
+            // Add player container to document
+            document.getElementById('players-container').appendChild(playerContainer);
+            
+            // Initialize WaveSurfer
+            const wavesurfer = WaveSurfer.create({
+                container: `#waveform-${index}`,
+                waveColor: '#9b9b9b',
+                progressColor: '#4a90e2',
+                height: 60,
+                cursorWidth: 1,
+                cursorColor: '#333',
+                barWidth: 2,
+                barRadius: 2,
+                responsive: true,
+                hideScrollbar: true
+            });
+            
+            // Load audio file
+            wavesurfer.load(track.url);
+            
+            // Play/Pause button functionality
+            playButton.addEventListener('click', () => {
+                wavesurfer.playPause();
+                if (wavesurfer.isPlaying()) {
+                    playButton.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                        </svg>
+                    `;
+                    
+                    // Pause all other players
+                    audioTracks.forEach((_, i) => {
+                        if (i !== index && window[`wavesurfer-${i}`] && window[`wavesurfer-${i}`].isPlaying()) {
+                            window[`wavesurfer-${i}`].pause();
+                            document.getElementById(`play-${i}`).innerHTML = `
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            `;
+                        }
+                    });
+                } else {
+                    playButton.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    `;
+                }
+            });
+            
+            wavesurfer.on('finish', () => {
+                playButton.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                `;
+            });
+            
+            // Store wavesurfer instance in window object
+            window[`wavesurfer-${index}`] = wavesurfer;
+        }
+    </script>
+</body>
+</html>
