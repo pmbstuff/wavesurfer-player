@@ -11,6 +11,7 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
+            background-color: transparent;
         }
         .player-container {
             display: flex;
@@ -32,12 +33,12 @@
             transition: background-color 0.2s;
         }
         .play-button:hover {
-            background-color: rgba(0,0,0,0.05);
+            background-color: rgba(255,255,255,0.1);
         }
         .play-button svg {
             width: 24px;
             height: 24px;
-            fill: #555;
+            fill: #ffffff;
         }
         .waveform {
             flex-grow: 1;
@@ -46,6 +47,7 @@
         .track-title {
             margin-bottom: 5px;
             font-weight: bold;
+            color: #ffffff;
         }
     </style>
 </head>
@@ -53,15 +55,41 @@
     <div id="players-container"></div>
 
     <script>
+        // Function to convert Dropbox share links to direct download links
+        function getDirectDropboxUrl(shareUrl) {
+            // If it's already a direct link (ends with ?raw=1), return as is
+            if (shareUrl.endsWith('?raw=1')) {
+                return shareUrl;
+            }
+            
+            // If it's a www.dropbox.com link
+            if (shareUrl.includes('www.dropbox.com')) {
+                // Replace ?dl=0 with ?raw=1 or add ?raw=1 if no parameter exists
+                return shareUrl.replace('?dl=0', '?raw=1').replace('&dl=0', '&raw=1')
+                    .replace(/\?.*$/, '?raw=1'); // Replace all parameters with ?raw=1
+            }
+            
+            // If it's a dropbox.com/s/ link (short link)
+            if (shareUrl.includes('dropbox.com/s/')) {
+                // Ensure it ends with ?dl=1 (different from www links!)
+                return shareUrl.replace('?dl=0', '?dl=1').replace(/\?.*$/, '?dl=1');
+                
+                // Note: For short links, ?dl=1 works better than ?raw=1
+            }
+            
+            // If no patterns match, return original or add ?raw=1
+            return shareUrl.includes('?') ? shareUrl + '&raw=1' : shareUrl + '?raw=1';
+        }
+
         // Configuration
         const audioTracks = [
             {
                 title: "Track 1",
-                url: "https://www.dropbox.com/scl/fi/spsgobo6ibkxd0i2xju6v/senzu-keys1.mp3?rlkey=jemocc795rhh7c5l2mn2vyft4&st=kv6unaik&dl=0", // Replace with your Dropbox URL
+                url: "https://www.dropbox.com/scl/fi/spsgobo6ibkxd0i2xju6v/senzu-keys1.mp3?rlkey=jemocc795rhh7c5l2mn2vyft4&st=4ea6xvlr&dl=0", // Use the original share link from Dropbox
             },
             {
                 title: "Track 2",
-                url: "https://www.dropbox.com/scl/fi/9thejyitcbjrh1ul7zril/senzu-keys2.mp3?rlkey=hd5vs8wid0c4pvpjbcj062o7b&st=huco2p5o&dl=0", // Replace with your Dropbox URL
+                url: "https://www.dropbox.com/scl/fi/9thejyitcbjrh1ul7zril/senzu-keys2.mp3?rlkey=hd5vs8wid0c4pvpjbcj062o7b&st=41phf7wm&dl=0", // Use the original share link from Dropbox
             },
             // Add more tracks as needed
         ];
@@ -105,11 +133,11 @@
             // Initialize WaveSurfer
             const wavesurfer = WaveSurfer.create({
                 container: `#waveform-${index}`,
-                waveColor: '#9b9b9b',
+                waveColor: '#ffffff',
                 progressColor: '#4a90e2',
                 height: 60,
                 cursorWidth: 1,
-                cursorColor: '#333',
+                cursorColor: '#ffffff',
                 barWidth: 2,
                 barRadius: 2,
                 responsive: true,
@@ -117,7 +145,7 @@
             });
             
             // Load audio file
-            wavesurfer.load(track.url);
+            wavesurfer.load(getDirectDropboxUrl(track.url));
             
             // Play/Pause button functionality
             playButton.addEventListener('click', () => {
