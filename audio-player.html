@@ -55,41 +55,15 @@
     <div id="players-container"></div>
 
     <script>
-        // Function to convert Dropbox share links to direct download links
-        function getDirectDropboxUrl(shareUrl) {
-            // If it's already a direct link (ends with ?raw=1), return as is
-            if (shareUrl.endsWith('?raw=1')) {
-                return shareUrl;
-            }
-            
-            // If it's a www.dropbox.com link
-            if (shareUrl.includes('www.dropbox.com')) {
-                // Replace ?dl=0 with ?raw=1 or add ?raw=1 if no parameter exists
-                return shareUrl.replace('?dl=0', '?raw=1').replace('&dl=0', '&raw=1')
-                    .replace(/\?.*$/, '?raw=1'); // Replace all parameters with ?raw=1
-            }
-            
-            // If it's a dropbox.com/s/ link (short link)
-            if (shareUrl.includes('dropbox.com/s/')) {
-                // Ensure it ends with ?dl=1 (different from www links!)
-                return shareUrl.replace('?dl=0', '?dl=1').replace(/\?.*$/, '?dl=1');
-                
-                // Note: For short links, ?dl=1 works better than ?raw=1
-            }
-            
-            // If no patterns match, return original or add ?raw=1
-            return shareUrl.includes('?') ? shareUrl + '&raw=1' : shareUrl + '?raw=1';
-        }
-
         // Configuration
         const audioTracks = [
             {
                 title: "Track 1",
-                url: "https://www.dropbox.com/scl/fi/spsgobo6ibkxd0i2xju6v/senzu-keys1.mp3?rlkey=jemocc795rhh7c5l2mn2vyft4&st=4ea6xvlr&dl=0", // Use the original share link from Dropbox
+                url: "https://www.dropbox.com/scl/fi/spsgobo6ibkxd0i2xju6v/senzu-keys1.mp3?rlkey=jemocc795rhh7c5l2mn2vyft4&st=4ea6xvlr&dl=1",
             },
             {
                 title: "Track 2",
-                url: "https://www.dropbox.com/scl/fi/9thejyitcbjrh1ul7zril/senzu-keys2.mp3?rlkey=hd5vs8wid0c4pvpjbcj062o7b&st=41phf7wm&dl=0", // Use the original share link from Dropbox
+                url: "https://www.dropbox.com/scl/fi/9thejyitcbjrh1ul7zril/senzu-keys2.mp3?rlkey=hd5vs8wid0c4pvpjbcj062o7b&st=41phf7wm&dl=1",
             },
             // Add more tracks as needed
         ];
@@ -144,8 +118,8 @@
                 hideScrollbar: true
             });
             
-            // Load audio file
-            wavesurfer.load(getDirectDropboxUrl(track.url));
+            // Load audio file directly
+            wavesurfer.load(track.url);
             
             // Play/Pause button functionality
             playButton.addEventListener('click', () => {
